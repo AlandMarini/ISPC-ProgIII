@@ -28,3 +28,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user', 'encrypted_info']
+
+class OTPValidateSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    code = serializers.CharField(required=True)
