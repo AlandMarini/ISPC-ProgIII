@@ -2,10 +2,12 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import UserProfile
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -22,6 +24,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
@@ -29,6 +32,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['user', 'encrypted_info']
 
+
+class OTPSendSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+
+
 class OTPValidateSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     code = serializers.CharField(required=True)
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    new_password = serializers.CharField(required=True, min_length=8)
